@@ -8,7 +8,7 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/minio/kes/kesconf"
+	"github.com/lgcorzo/kes/kesconf"
 )
 
 var FSPath = flag.String("fs.path", "", "Path used for FS tests")

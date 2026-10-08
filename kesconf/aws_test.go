@@ -8,7 +8,7 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/minio/kes/kesconf"
+	"github.com/lgcorzo/kes/kesconf"
 )
 
 var awsConfigFile = flag.String("aws.config", "", "Path to a KES config file with AWS SecretsManager config")

@@ -25,9 +25,9 @@ import (
 
 	"aead.dev/mem"
 	vaultapi "github.com/hashicorp/vault/api"
-	"github.com/minio/kes"
-	"github.com/minio/kes/internal/keystore"
-	kesdk "github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes"
+	"github.com/lgcorzo/kes/internal/keystore"
+	kesdk "github.com/lgcorzo/kms-go/kes"
 )
 
 // Store is a Hashicorp Vault secret store.
@@ -336,7 +336,7 @@ func (s *Store) Create(ctx context.Context, name string, value []byte) error {
 	}
 
 	// Vault returns 204 No Content for K/V v1 and 200 OK for K/V v2.
-	// We have to check both status codes. Ref: https://github.com/minio/kes-go/issues/224
+	// We have to check both status codes. Ref: https://github.com/lgcorzo/kes-go/issues/224
 	if resp.StatusCode != http.StatusNoContent && resp.StatusCode != http.StatusOK {
 		if _, err = vaultapi.ParseSecret(resp.Body); err != nil {
 			return fmt.Errorf("vault: failed to create '%s': %v", location, err)

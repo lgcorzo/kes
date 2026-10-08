@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/minio/kes"
+	"github.com/lgcorzo/kes"
 )
 
 // This example shows how to connect an AuditHandler

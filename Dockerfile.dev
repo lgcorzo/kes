@@ -1,6 +1,6 @@
 FROM golang:1.21-alpine as build
 
-LABEL maintainer="MinIO Inc <dev@min.io>"
+LABEL maintainer="lgcorzo <lgcorzo@users.noreply.github.com>"
 
 ENV GOPATH /go
 ENV CGO_ENABLED 0
@@ -8,7 +8,7 @@ ENV CGO_ENABLED 0
 RUN  \
      apk add -U --no-cache ca-certificates && \
      apk add --no-cache git && \
-     git clone https://github.com/minio/kes && cd kes && \
+     git clone https://github.com/lgcorzo/kes && cd kes && \
      go install -v -trimpath -buildvcs=true -ldflags "-s -w" ./cmd/kes
 
 FROM scratch

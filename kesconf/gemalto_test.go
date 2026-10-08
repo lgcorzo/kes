@@ -8,7 +8,7 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/minio/kes/kesconf"
+	"github.com/lgcorzo/kes/kesconf"
 )
 
 var gemaltoConfigFile = flag.String("gemalto.config", "", "Path to a KES config file with Gemalto KeySecure config")

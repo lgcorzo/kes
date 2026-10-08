@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/minio/kes/internal/api"
+	"github.com/lgcorzo/kes/internal/api"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/common/expfmt"

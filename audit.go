@@ -11,8 +11,8 @@ import (
 	"net/netip"
 	"time"
 
-	"github.com/minio/kes/internal/api"
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes/internal/api"
+	"github.com/lgcorzo/kms-go/kes"
 )
 
 // AuditRecord describes an audit event logged by a KES server.

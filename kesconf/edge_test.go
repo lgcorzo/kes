@@ -15,8 +15,8 @@ import (
 	"os/signal"
 	"testing"
 
-	"github.com/minio/kes"
-	kesdk "github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes"
+	kesdk "github.com/lgcorzo/kms-go/kes"
 )
 
 type SetupFunc func(context.Context, kes.KeyStore, string) error

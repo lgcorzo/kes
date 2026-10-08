@@ -9,7 +9,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/minio/kes/kesconf"
+	"github.com/lgcorzo/kes/kesconf"
 )
 
 var azureConfigFile = flag.String("azure.config", "", "Path to a KES config file with Azure KeyVault config")

@@ -17,7 +17,7 @@ type Buffer struct {
 // Arguments are handled in the manner
 // of fmt.Print.
 func (b *Buffer) Sprint(v ...any) *Buffer {
-	b.s.WriteString(fmt.Sprint(v...))
+	fmt.Fprint(&b.s, v...)
 	return b
 }
 
@@ -25,7 +25,7 @@ func (b *Buffer) Sprint(v ...any) *Buffer {
 // Arguments are handled in the manner
 // of fmt.Printf.
 func (b *Buffer) Sprintf(format string, v ...any) *Buffer {
-	b.s.WriteString(fmt.Sprintf(format, v...))
+	fmt.Fprintf(&b.s, format, v...)
 	return b
 }
 
@@ -33,7 +33,7 @@ func (b *Buffer) Sprintf(format string, v ...any) *Buffer {
 // Arguments are handled in the manner
 // of fmt.Println.
 func (b *Buffer) Sprintln(v ...any) *Buffer {
-	b.s.WriteString(fmt.Sprintln(v...))
+	fmt.Fprintln(&b.s, v...)
 	return b
 }
 

@@ -12,7 +12,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/minio/kes/internal/cli"
+	"github.com/lgcorzo/kes/internal/cli"
 )
 
 func complete(cmd string) bool {

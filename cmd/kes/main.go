@@ -17,10 +17,10 @@ import (
 	"time"
 
 	tui "github.com/charmbracelet/lipgloss"
-	"github.com/minio/kes/internal/cli"
-	"github.com/minio/kes/internal/https"
-	"github.com/minio/kes/internal/sys"
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes/internal/cli"
+	"github.com/lgcorzo/kes/internal/https"
+	"github.com/lgcorzo/kes/internal/sys"
+	"github.com/lgcorzo/kms-go/kes"
 	flag "github.com/spf13/pflag"
 	"golang.org/x/term"
 )

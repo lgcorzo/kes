@@ -13,9 +13,9 @@ import (
 	"time"
 
 	"aead.dev/mem"
-	"github.com/minio/kes/internal/api"
-	"github.com/minio/kes/internal/metric"
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes/internal/api"
+	"github.com/lgcorzo/kes/internal/metric"
+	"github.com/lgcorzo/kms-go/kes"
 )
 
 type serverState struct {

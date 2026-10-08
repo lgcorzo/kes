@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"slices"
 
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kms-go/kes"
 	"github.com/tinylib/msgp/msgp"
 )
 

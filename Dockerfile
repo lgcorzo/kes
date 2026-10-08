@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/ubi-minimal:9.5 as build
+FROM --platform=$BUILDPLATFORM registry.access.redhat.com/ubi9/ubi-minimal:9.5 AS build
 
 RUN microdnf update -y --nodocs && microdnf install ca-certificates --nodocs
 
@@ -6,9 +6,9 @@ FROM registry.access.redhat.com/ubi9/ubi-micro:9.5
 
 ARG TAG
 
-LABEL name="MinIO" \
-      vendor="MinIO Inc <dev@min.io>" \
-      maintainer="MinIO Inc <dev@min.io>" \
+LABEL name="KES" \
+      vendor="lgcorzo" \
+      maintainer="lgcorzo <lgcorzo@users.noreply.github.com>" \
       version="${TAG}" \
       release="${TAG}" \
       summary="KES is a cloud-native distributed key management and encryption server designed to build zero-trust infrastructures at scale."

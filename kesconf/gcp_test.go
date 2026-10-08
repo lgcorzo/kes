@@ -8,7 +8,7 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/minio/kes/kesconf"
+	"github.com/lgcorzo/kes/kesconf"
 )
 
 var gcpConfigFile = flag.String("gcp.config", "", "Path to a KES config file with GCP SecretManager config")

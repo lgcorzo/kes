@@ -15,8 +15,8 @@ import (
 	"time"
 
 	tui "github.com/charmbracelet/lipgloss"
-	"github.com/minio/kes/internal/cli"
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes/internal/cli"
+	"github.com/lgcorzo/kms-go/kes"
 
 	flag "github.com/spf13/pflag"
 )
