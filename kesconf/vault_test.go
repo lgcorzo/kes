@@ -8,7 +8,7 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/minio/kes/kesconf"
+	"github.com/lgcorzo/kes/kesconf"
 )
 
 var vaultConfigFile = flag.String("vault.config", "", "Path to a KES config file with Hashicorp Vault config")

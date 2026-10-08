@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"aead.dev/mem"
-	xhttp "github.com/minio/kes/internal/http"
+	xhttp "github.com/lgcorzo/kes/internal/http"
 )
 
 // authToken is a KeySecure authentication token.

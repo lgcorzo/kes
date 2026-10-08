@@ -8,7 +8,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/minio/kes/internal/api"
+	"github.com/lgcorzo/kes/internal/api"
 )
 
 // logHandler is an slog.Handler that handles Server log records.

@@ -14,7 +14,7 @@ import (
 	"strings"
 
 	"aead.dev/mem"
-	"github.com/minio/kes/internal/headers"
+	"github.com/lgcorzo/kes/internal/headers"
 )
 
 // Failr responds to the client with err. The response

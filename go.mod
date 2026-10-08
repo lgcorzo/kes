@@ -1,8 +1,6 @@
-module github.com/minio/kes
+module github.com/lgcorzo/kes
 
-go 1.24.0
-
-toolchain go1.24.1
+go 1.25
 
 require (
 	aead.dev/mem v0.2.0
@@ -14,9 +12,9 @@ require (
 	github.com/aws/aws-sdk-go v1.55.6
 	github.com/charmbracelet/lipgloss v1.0.0
 	github.com/hashicorp/vault/api v1.15.0
-	github.com/minio/kms-go/kes v0.3.1
-	github.com/minio/kms-go/kms v0.5.0
-	github.com/minio/selfupdate v0.6.0
+	github.com/lgcorzo/kms-go/kes v0.3.1-lgcorzo.1
+	github.com/lgcorzo/kms-go/kms v0.5.1-lgcorzo.1
+	github.com/lgcorzo/selfupdate v0.6.0-lgcorzo.1
 	github.com/muesli/termenv v0.15.2
 	github.com/prometheus/client_golang v1.20.5
 	github.com/prometheus/common v0.62.0
@@ -27,11 +25,12 @@ require (
 	golang.org/x/term v0.29.0
 	google.golang.org/api v0.219.0
 	google.golang.org/grpc v1.70.0
-	google.golang.org/protobuf v1.36.4
+	google.golang.org/protobuf v1.36.11
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
+	aead.dev/mtls v0.4.0 // indirect
 	cloud.google.com/go/auth v0.14.1 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.7 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect

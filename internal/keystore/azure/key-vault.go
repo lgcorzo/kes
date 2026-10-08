@@ -15,10 +15,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azsecrets"
-	"github.com/minio/kes"
-	xhttp "github.com/minio/kes/internal/http"
-	"github.com/minio/kes/internal/keystore"
-	kesdk "github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes"
+	xhttp "github.com/lgcorzo/kes/internal/http"
+	"github.com/lgcorzo/kes/internal/keystore"
+	kesdk "github.com/lgcorzo/kms-go/kes"
 )
 
 // Credentials are Azure client credentials to authenticate an application

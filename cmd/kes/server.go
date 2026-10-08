@@ -28,11 +28,11 @@ import (
 	"time"
 
 	tui "github.com/charmbracelet/lipgloss"
-	"github.com/minio/kes"
-	"github.com/minio/kes/internal/cli"
-	"github.com/minio/kes/internal/sys"
-	"github.com/minio/kes/kesconf"
-	kesdk "github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes"
+	"github.com/lgcorzo/kes/internal/cli"
+	"github.com/lgcorzo/kes/internal/sys"
+	"github.com/lgcorzo/kes/kesconf"
+	kesdk "github.com/lgcorzo/kms-go/kes"
 	flag "github.com/spf13/pflag"
 )
 
@@ -57,7 +57,7 @@ It is a stateless, self-contained server that uses a separate key
 store as persistence layer. KES servers can be added or removed at
 any point in time to scale out infinitely.
 
-   Quick Start: https://github.com/minio/kes#quick-start
+   Quick Start: https://github.com/lgcorzo/kes#quick-start
    Docs:        https://min.io/docs/kes/
 	
 Examples:
@@ -389,7 +389,7 @@ func startDevServer(addr string) error {
 }
 
 // configureCache sets default values for each cache config option
-// as documented in: https://github.com/minio/kes/blob/master/server-config.yaml
+// as documented in: https://github.com/lgcorzo/kes/blob/master/server-config.yaml
 func configureCache(c *kes.CacheConfig) *kes.CacheConfig {
 	if c == nil {
 		c = &kes.CacheConfig{}

@@ -13,8 +13,8 @@ import (
 	"net/http"
 	"sync/atomic"
 
-	"github.com/minio/kes/internal/api"
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes/internal/api"
+	"github.com/lgcorzo/kms-go/kes"
 )
 
 // verifyIdentity authenticates client requests by verifying that

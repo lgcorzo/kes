@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	tui "github.com/charmbracelet/lipgloss"
-	"github.com/minio/kes/internal/cli"
+	"github.com/lgcorzo/kes/internal/cli"
 	"github.com/muesli/termenv"
 	flag "github.com/spf13/pflag"
 )

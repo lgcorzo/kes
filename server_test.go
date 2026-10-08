@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kms-go/kes"
 )
 
 // Self-signed, valid from Oct. 10 2023 until Oct 10 2050

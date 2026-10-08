@@ -18,9 +18,9 @@ import (
 	"time"
 
 	"aead.dev/mem"
-	"github.com/minio/kes"
-	"github.com/minio/kes/internal/keystore"
-	kesdk "github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes"
+	"github.com/lgcorzo/kes/internal/keystore"
+	kesdk "github.com/lgcorzo/kms-go/kes"
 )
 
 // NewStore returns a new Store that reads

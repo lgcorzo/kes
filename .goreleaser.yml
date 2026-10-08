@@ -5,7 +5,7 @@ release:
    name_template: Release {{ replace .CommitDate ":" "-" }}
 
    github:
-    owner: minio
+    owner: lgcorzo
     name: kes
 
 before:
@@ -40,13 +40,14 @@ builds:
 archives:
   -
     name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
-    format: binary
+    formats:
+      - binary
 
 nfpms:
   -
-    vendor: MinIO, Inc.
-    homepage: https://github.com/minio/kes
-    maintainer: MinIO Development <dev@min.io>
+    vendor: lgcorzo
+    homepage: https://github.com/lgcorzo/kes
+    maintainer: lgcorzo <lgcorzo@users.noreply.github.com>
     description: KES is a stateless and distributed key-management system for high-performance applications
     license: GNU Affero General Public License v3.0
     formats:
@@ -70,7 +71,7 @@ changelog:
 
 dockers:
 - image_templates:
-  - minio/kes:{{ replace .CommitDate ":" "-" }}-amd64
+  - lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-amd64
   use: buildx
   dockerfile: Dockerfile
   extra_files:
@@ -80,7 +81,7 @@ dockers:
   - '--platform=linux/amd64'
   - '--build-arg=TAG={{ replace .CommitDate ":" "-" }}'
 - image_templates:
-  - quay.io/minio/kes:{{ replace .CommitDate ":" "-" }}-amd64
+  - quay.io/lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-amd64
   use: buildx
   dockerfile: Dockerfile
   extra_files:
@@ -90,7 +91,7 @@ dockers:
   - '--platform=linux/amd64'
   - '--build-arg=TAG={{ replace .CommitDate ":" "-" }}'
 - image_templates:
-  - minio/kes:{{ replace .CommitDate ":" "-" }}-arm64
+  - lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-arm64
   use: buildx
   goarch: arm64
   dockerfile: Dockerfile
@@ -101,7 +102,7 @@ dockers:
   - '--platform=linux/arm64'
   - '--build-arg=TAG={{ replace .CommitDate ":" "-" }}'
 - image_templates:
-  - quay.io/minio/kes:{{ replace .CommitDate ":" "-" }}-arm64
+  - quay.io/lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-arm64
   use: buildx
   goarch: arm64
   dockerfile: Dockerfile
@@ -112,15 +113,15 @@ dockers:
   - '--platform=linux/arm64'
   - '--build-arg=TAG={{ replace .CommitDate ":" "-" }}'
 docker_manifests:
-- name_template: minio/kes:{{ replace .CommitDate ":" "-" }}
+- name_template: lgcorzo/kes:{{ replace .CommitDate ":" "-" }}
   image_templates:
-  - minio/kes:{{ replace .CommitDate ":" "-" }}-amd64
-  - minio/kes:{{ replace .CommitDate ":" "-" }}-arm64
-- name_template: quay.io/minio/kes:{{ replace .CommitDate ":" "-" }}
+  - lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-amd64
+  - lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-arm64
+- name_template: quay.io/lgcorzo/kes:{{ replace .CommitDate ":" "-" }}
   image_templates:
-  - quay.io/minio/kes:{{ replace .CommitDate ":" "-" }}-amd64
-  - quay.io/minio/kes:{{ replace .CommitDate ":" "-" }}-arm64
-- name_template: minio/kes:latest
+  - quay.io/lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-amd64
+  - quay.io/lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-arm64
+- name_template: lgcorzo/kes:latest
   image_templates:
-  - minio/kes:{{ replace .CommitDate ":" "-" }}-amd64
-  - minio/kes:{{ replace .CommitDate ":" "-" }}-arm64
+  - lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-amd64
+  - lgcorzo/kes:{{ replace .CommitDate ":" "-" }}-arm64

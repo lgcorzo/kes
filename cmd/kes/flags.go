@@ -5,7 +5,7 @@
 package main
 
 import (
-	"github.com/minio/kes/internal/cli"
+	"github.com/lgcorzo/kes/internal/cli"
 	flag "github.com/spf13/pflag"
 )
 

@@ -2,12 +2,12 @@
 
 ## Supported Versions
 
-We always provide security updates for the [latest release](https://github.com/minio/kes/releases/latest).
+We always provide security updates for the [latest release](https://github.com/lgcorzo/kes/releases/latest).
 Whenever there is a security update you just need to upgrade to the latest version.
 
 ## Reporting a Vulnerability
 
-All security bugs in [minio/kes](https://github,com/minio/kes) should be reported by email to security@min.io.
+All security bugs in [lgcorzo/kes](https://github.com/lgcorzo/kes) should be reported by email to security@min.io.
 Your email will be acknowledged within 48 hours, and you'll receive a more detailed response to your email
 within 72 hours indicating the next steps in handling your report.
 
@@ -31,7 +31,7 @@ MinIO uses the following disclosure process:
    If the report is rejected the response explains why.
 3. Code is audited to find any potential similar problems.
 4. Fixes are prepared for the latest release.
-5. On the date that the fixes are applied a security advisory will be published on https://github.com/minio/kes/security/advisories.
+5. On the date that the fixes are applied a security advisory will be published on https://github.com/lgcorzo/kes/security/advisories.
    Please inform us in your report email whether MinIO should mention your contribution w.r.t. fixing
    the security issue. By default MinIO will **not** publish this information to protect your privacy.
 

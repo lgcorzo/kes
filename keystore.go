@@ -13,10 +13,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/minio/kes/internal/cache"
-	"github.com/minio/kes/internal/crypto"
-	"github.com/minio/kes/internal/keystore"
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kes/internal/cache"
+	"github.com/lgcorzo/kes/internal/crypto"
+	"github.com/lgcorzo/kes/internal/keystore"
+	"github.com/lgcorzo/kms-go/kes"
 )
 
 // Key define a cryptographic key

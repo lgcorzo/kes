@@ -8,7 +8,7 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/minio/kes/kesconf"
+	"github.com/lgcorzo/kes/kesconf"
 )
 
 var fortanixConfigFile = flag.String("fortanix.config", "", "Path to a KES config file with Fortanix SDKMS config")

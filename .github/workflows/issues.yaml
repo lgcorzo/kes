@@ -7,12 +7,20 @@ on:
     types:
       - opened
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
-  add-to-project:
-    name: Add issue to project
+  triage:
+    name: Issue Triage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/add-to-project@v0.5.0
+      - name: Add issue to project board
+        if: env.PROJECT_URL != ''
+        uses: actions/add-to-project@v1
+        env:
+          PROJECT_URL: ${{ vars.PROJECT_URL }}
         with:
-          project-url: https://github.com/orgs/miniohq/projects/2
-          github-token: ${{ secrets.BOT_PAT }}
+          project-url: ${{ vars.PROJECT_URL }}
+          github-token: ${{ secrets.BOT_PAT || secrets.GITHUB_TOKEN }}

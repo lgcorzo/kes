@@ -16,7 +16,7 @@ import (
 	"time"
 
 	"aead.dev/mem"
-	"github.com/minio/kms-go/kes"
+	"github.com/lgcorzo/kms-go/kes"
 )
 
 func TestImportKey(t *testing.T) {
@@ -505,13 +505,14 @@ func testListIdentities(t *testing.T) {
 	srv, url := startServer(ctx, nil)
 	defer srv.Close()
 
-	names := []kes.Identity{
+	names := make([]kes.Identity, 0, 6)
+	names = append(names,
 		"8ed87d812abbf280ffa760080873d0d503fdfa9c41c1bf32b4cffd1dc71b1d1c",
 		"34d90ce76fbc40ab8354ea8c42c17b3f20e1f63a10f6cef787a94394b02141c4",
 		"cd0dd4c3efab6a5744d1e9b1754dbe7f612bd759062d6f17a8ef25f47fc86c54",
 		"59ba6afc8e844ba36edcf8ed50c23cb62626ea420e9b9ca7509ab6fa6d13ad3a",
 		"disabled",
-	}
+	)
 	if err := srv.UpdatePolicies(map[string]Policy{"policy": {Identities: names}}); err != nil {
 		t.Fatalf("Failed to update server policies: %v", err)
 	}
