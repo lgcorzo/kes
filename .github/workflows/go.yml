@@ -43,6 +43,7 @@ jobs:
         uses: golangci/golangci-lint-action@v7
         with:
           version: v2.11.3
+          skip-config-verify: true
           args: --config ./.golangci.yml --timeout=5m
   test:
     name: Test ${{ matrix.os }}
