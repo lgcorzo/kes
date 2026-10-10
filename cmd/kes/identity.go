@@ -158,16 +158,16 @@ func identityCmd(args []string) {
 			if !ok {
 				cli.Exitf("'%s' contains unsupported private key. Only ed25519 private keys are supported", filename)
 			}
-			apiKey := "kes:v1:" + base64.StdEncoding.EncodeToString(append([]byte{0}, key[:ed25519.SeedSize]...))
+			keyText := "kes:v1:" + base64.StdEncoding.EncodeToString(append([]byte{0}, key[:ed25519.SeedSize]...))
 
 			if !cli.IsTerminal() {
-				fmt.Print(apiKey)
+				fmt.Fprint(os.Stdout, keyText)
 				return
 			}
 			buf := &strings.Builder{}
 			fmt.Fprintln(buf, "Your API key:")
 			fmt.Fprintln(buf)
-			fmt.Fprintln(buf, "  ", tui.NewStyle().Bold(true).Render(apiKey))
+			fmt.Fprintln(buf, "  ", tui.NewStyle().Bold(true).Render(keyText))
 			fmt.Fprintln(buf)
 			fmt.Fprintf(buf, "It corresponds to the private key in: %s.\n", filename)
 			fmt.Fprint(buf, "Keep it secret and secure!")
