@@ -34,11 +34,19 @@ var ( // compiler checks
 // This method is mainly used in the context of ResponseController.
 func (fw *flushWriter) Unwrap() http.ResponseWriter { return fw.w }
 
-func (fw *flushWriter) WriteHeader(status int) { fw.w.WriteHeader(status) }
+func (fw *flushWriter) WriteHeader(status int) {
+	if fw.w.Header().Get("X-Content-Type-Options") == "" {
+		fw.w.Header().Set("X-Content-Type-Options", "nosniff")
+	}
+	fw.w.WriteHeader(status)
+}
 
 func (fw *flushWriter) Header() http.Header { return fw.w.Header() }
 
 func (fw *flushWriter) Write(p []byte) (int, error) {
+	if fw.w.Header().Get("X-Content-Type-Options") == "" {
+		fw.w.Header().Set("X-Content-Type-Options", "nosniff")
+	}
 	n, err := fw.w.Write(p)
 	if fw.f != nil && err == nil {
 		fw.f.Flush()

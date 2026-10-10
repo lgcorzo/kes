@@ -190,7 +190,7 @@ func startServer(addrFlag, configFlag string) error {
 	signal.Notify(sighup, syscall.SIGHUP)
 	defer signal.Stop(sighup)
 
-	startupMessage := func(conf *kes.Config) *strings.Builder {
+	startupMessage := func(keys kes.KeyStore, admin kes.Identity) *strings.Builder {
 		blue := tui.NewStyle().Foreground(tui.Color("#268BD2"))
 		faint := tui.NewStyle().Faint(true)
 
@@ -200,7 +200,7 @@ func startServer(addrFlag, configFlag string) error {
 		fmt.Fprintf(buf, "%-33s %-23s %s\n", blue.Render("License"), "AGPLv3", faint.Render("https://www.gnu.org/licenses/agpl-3.0.html"))
 		fmt.Fprintf(buf, "%-33s %-12s 2015-%d  %s\n", blue.Render("Copyright"), "MinIO, Inc.", time.Now().Year(), faint.Render("https://min.io"))
 		fmt.Fprintln(buf)
-		fmt.Fprintf(buf, "%-33s %v\n", blue.Render("KMS"), conf.Keys)
+		fmt.Fprintf(buf, "%-33s %v\n", blue.Render("KMS"), keys)
 		fmt.Fprintf(buf, "%-33s · https://%s\n", blue.Render("API"), net.JoinHostPort(ifaceIPs[0].String(), port))
 		for _, ifaceIP := range ifaceIPs[1:] {
 			fmt.Fprintf(buf, "%-11s · https://%s\n", " ", net.JoinHostPort(ifaceIP.String(), port))
@@ -210,8 +210,8 @@ func startServer(addrFlag, configFlag string) error {
 		fmt.Fprintf(buf, "%-33s https://min.io/docs/kes\n", blue.Render("Docs"))
 
 		fmt.Fprintln(buf)
-		if _, err := hex.DecodeString(conf.Admin.String()); err == nil {
-			fmt.Fprintf(buf, "%-33s %s\n", blue.Render("Admin"), conf.Admin)
+		if _, err := hex.DecodeString(admin.String()); err == nil {
+			fmt.Fprintf(buf, "%-33s %s\n", blue.Render("Admin"), admin)
 		} else {
 			fmt.Fprintf(buf, "%-33s <disabled>\n", blue.Render("Admin"))
 		}
@@ -258,10 +258,10 @@ func startServer(addrFlag, configFlag string) error {
 				if err = closer.Close(); err != nil {
 					fmt.Fprintf(os.Stderr, "Failed to close previous keystore connections: %v\n", err)
 				}
-				buf := startupMessage(config)
+				buf := startupMessage(config.Keys, config.Admin)
 				fmt.Fprintln(buf)
 				fmt.Fprintln(buf, "=> Reloading configuration after SIGHUP signal completed.")
-				fmt.Println(buf.String())
+				fmt.Fprintln(os.Stdout, buf.String())
 			}
 		}
 	}(ctx)
@@ -292,10 +292,10 @@ func startServer(addrFlag, configFlag string) error {
 		}
 	}(ctx)
 
-	buf := startupMessage(conf)
+	buf := startupMessage(conf.Keys, conf.Admin)
 	fmt.Fprintln(buf)
 	fmt.Fprintln(buf, "=> Server is up and running...")
-	fmt.Println(buf.String())
+	fmt.Fprintln(os.Stdout, buf.String())
 
 	if err = srv.ListenAndStart(ctx, addrFlag, conf); err != nil {
 		return err
@@ -329,10 +329,12 @@ func startDevServer(addr string) error {
 		return err
 	}
 
-	apiKey, err := kesdk.GenerateAPIKey(nil)
+	devKey, err := kesdk.GenerateAPIKey(nil)
 	if err != nil {
 		return err
 	}
+	keyText := devKey.String()
+	adminIdentity := devKey.Identity()
 
 	tlsConf := &tls.Config{
 		MinVersion:   tls.VersionTLS12,
@@ -345,7 +347,7 @@ func startDevServer(addr string) error {
 	defer cancel()
 
 	conf := &kes.Config{
-		Admin: apiKey.Identity(),
+		Admin: adminIdentity,
 		TLS:   tlsConf,
 		Cache: &kes.CacheConfig{
 			Expiry:        5 * time.Minute,
@@ -373,13 +375,13 @@ func startDevServer(addr string) error {
 	fmt.Fprintln(buf)
 	fmt.Fprintf(buf, "%-33s https://min.io/docs/kes\n", blue.Render("Docs"))
 	fmt.Fprintln(buf)
-	fmt.Fprintf(buf, "%-33s %s\n", blue.Render("API Key"), apiKey.String())
-	fmt.Fprintf(buf, "%-33s %s\n", blue.Render("Admin"), apiKey.Identity())
+	fmt.Fprintf(buf, "%-33s %s\n", blue.Render("API Key"), keyText)
+	fmt.Fprintf(buf, "%-33s %s\n", blue.Render("Admin"), adminIdentity)
 	fmt.Fprintf(buf, "%-33s error=stderr level=%s\n", blue.Render("Logs"), srv.ErrLevel.Level())
 	fmt.Fprintf(buf, "%-11s audit=stdout level=%s\n", " ", srv.AuditLevel.Level())
 	fmt.Fprintln(buf)
 	fmt.Fprintln(buf, "=> Server is up and running...")
-	fmt.Println(buf.String())
+	fmt.Fprintln(os.Stdout, buf.String())
 
 	if err := srv.ListenAndStart(ctx, addr, conf); err != nil {
 		return err
