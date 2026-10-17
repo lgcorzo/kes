@@ -15,6 +15,9 @@ jobs:
   triage:
     name: Issue Triage
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     steps:
       - name: Add issue to project board
         if: env.PROJECT_URL != ''
