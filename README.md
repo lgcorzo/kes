@@ -227,7 +227,7 @@ Refer to the [monitoring documentation](https://min.io/docs/kes/concepts/monitor
 
 For a graphical Grafana dashboard refer to the following [example](examples/grafana/dashboard.json).
 
-![](.github/grafana-dashboard.png)  
+![](https://raw.githubusercontent.com/minio/kes/master/.github/grafana-dashboard.png)  
 
 ## FAQs
 
