@@ -249,7 +249,7 @@ func (s *Store) Create(ctx context.Context, name string, value []byte) error {
 	if resp.StatusCode != http.StatusCreated {
 		switch err := parseErrorResponse(resp); {
 		case err == nil:
-			return fmt.Errorf("fortanix: failed to create key '%s': %s (%q)", name, resp.Status, resp.StatusCode)
+			return fmt.Errorf("fortanix: failed to create key '%s': %s (%d)", name, resp.Status, resp.StatusCode)
 		case resp.StatusCode == http.StatusConflict && err.Error() == "sobject already exists":
 			return kesdk.ErrKeyExists
 		default:
