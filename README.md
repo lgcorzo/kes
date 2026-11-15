@@ -1,3 +1,9 @@
+Maintained fork of [minio/kes](https://github.com/minio/kes) (archived by upstream in 2025). Applies security patches and signed builds. Part of the [Dark Gravity](https://github.com/lgcorzo/rust_CACD_autonomous_factory) factory. License: AGPLv3.
+
+[![CI](https://github.com/lgcorzo/kes/actions/workflows/go.yml/badge.svg)](https://github.com/lgcorzo/kes/actions/workflows/go.yml)
+[![Release](https://img.shields.io/github/v/release/lgcorzo/kes?include_prereleases&style=flat-square)](https://github.com/lgcorzo/kes/releases)
+[![License: AGPLv3](https://img.shields.io/badge/License-AGPLv3-blue.svg?style=flat-square)](LICENSE)
+
 > [!NOTE]
 > **UPSTREAM STATUS & FORK PURPOSE:**
 > While upstream MinIO has archived the open-source KES (Key Encryption Service) in favor of proprietary MinKMS AiStor Key Manager, this repository is **actively maintained and hardened** as the cryptographic key management backbone of the **[Dark Gravity Autonomous CA/CD Factory](https://github.com/lgcorzo/rust_CACD_autonomous_factory)**. Ongoing security patches, envelope encryption hardening, and supply-chain integrity checks are continuously integrated to protect the autonomous software delivery lifecycle.
@@ -10,11 +16,11 @@
 
 In the **Dark Gravity Autonomous CA/CD Software Factory (V7.2 / V7.3)**, KES is not merely a utility—it is the **critical Key Management Service (KMS) proxy** that governs all envelope encryption operations, data-at-rest protection, and cryptographic key lifecycle management for the entire autonomous engineering system.
 
-Upstream MinIO's deprecation of KES open-source leaves unaddressed security vulnerabilities (CVEs) and orphaned cryptographic primitives. In a zero-trust, autonomous multi-agent factory where AI agents autonomously synthesize, compile, and deploy software:
+Upstream MinIO's deprecation of KES open-source leaves unaddressed security vulnerabilities (CVEs) and orphaned cryptographic primitives. In an autonomous multi-agent factory using mTLS client authentication, per-identity access policies, and audit logs:
 - **Envelope Encryption Integrity**: KES mediates all Data Encryption Key (DEK) derivation between MinIO Object Storage and the root KMS (HashiCorp Vault, AWS KMS, GCP KMS, Azure Key Vault). Unpatched vulnerabilities in the key proxy would compromise every encrypted object in the factory.
 - **Cryptographic Provenance Chain**: Every artifact produced by the Dark Gravity factory—compiled binaries, AST mutations, causal lineage snapshots—relies on KES-derived keys for at-rest encryption. A broken KES link invalidates the entire cryptographic proof chain.
-- **Air-Gapped Data Sovereignty**: Dark Gravity operates on sovereign, air-gapped infrastructure. Key material must never escape the private network perimeter, and the KMS proxy must remain fully auditable and patchable without commercial dependencies.
-- **Continuous Compliance & Auditability**: Under regulations like the **EU AI Act (Art. 12 & 14)**, **SOC 2 Type II**, and **ISO/IEC 25059**, any weakness in key management voids the factory's compliance posture.
+- **Self-Hosted & Compatible with HSM Backends**: Compatible with HSM and KMS backends (Fortanix SDKMS, Entrust KeyControl, Gemalto KeySecure, HashiCorp Vault) on self-hosted or air-gapped infrastructure so key material stays within the private network perimeter.
+- **Auditability & Traceability**: Designed to facilitate auditing and cryptographic traceability across keys, artifacts, and access logs.
 
 Therefore, this repository is actively maintained to remediate security flaws, patch cryptographic vulnerabilities, and provide robust CI/CD builds tailored for production Kubernetes and MicroK8s environments.
 
@@ -163,37 +169,46 @@ go install github.com/lgcorzo/kes/cmd/kes@latest
 
 </details>
 
-## Quick Start
-   
-We run a public KES instance at `https://play.min.io:7373` as playground.
-You can interact with our play instance either via the KES CLI or cURL.
-Alternatively, you can get started by setting up your own KES server in
-less than five minutes.
-   
-<details><summary><b>First steps</b></summary>
+## Quick Start (Local Docker Instance)
 
-#### 1. Configure CLI
-Point the KES CLI to the KES server at `https://play.min.io:7373` and use the following API key:
+> [!WARNING]
+> **Inherited Demo Credentials Notice:** The files `root.key`, `root.cert`, and the sample keys in `server-config.yaml` are inherited demonstration credentials from upstream. **Do not use them in production.** Always generate fresh identities with `kes identity new` for real deployments.
+
+Run your own local KES server in seconds using Docker:
+
+<details open="true"><summary><b>First steps (Local Docker)</b></summary>
+
+#### 1. Start a local KES container (dev mode)
 ```sh
-export KES_SERVER=https://play.min.io:7373
-export KES_API_KEY=kes:v1:AD9E7FSYWrMD+VjhI6q545cYT9YOyFxZb7UnjEepYDRc
+docker run --rm -d \
+  --name kes-local \
+  -p 7373:7373 \
+  -v $(pwd)/root.key:/root.key:ro \
+  -v $(pwd)/root.cert:/root.cert:ro \
+  ghcr.io/lgcorzo/kes:latest server --auth=off --addr=0.0.0.0:7373 --key=/root.key --cert=/root.cert
+```
+
+#### 2. Configure CLI
+Point the KES CLI to your local KES container:
+```sh
+export KES_SERVER=https://127.0.0.1:7373
+# If using mTLS identity instead of --auth=off:
+export KES_CLIENT_KEY=./root.key
+export KES_CLIENT_CERT=./root.cert
 ```
 
 #### 3. Create a Key
-Create a new root encryption key - e.g. `my-key`.
+Create a new root encryption key — e.g. `my-key`:
+```sh
+kes key create my-key -k
 ```
-kes key create my-key
-```
-> Note that creating a new key will fail with `key already exist` if it already exist.
 
 #### 4. Generate a DEK
-Derive a new data encryption keys (DEK).
+Derive a new data encryption key (DEK):
 ```sh
-kes key dek my-key
+kes key dek my-key -k
 ```
-The plaintext part of the DEK would be used by an application to encrypt some data.
-The ciphertext part of the DEK would be stored alongside the encrypted data for future
-decryption.
+The plaintext part of the DEK is used by an application to encrypt data, while the ciphertext part is stored alongside the encrypted data for future decryption.
 
 </details>   
 
@@ -260,7 +275,7 @@ To guarantee long-term sovereign support, full supply-chain independence, and co
 | | [`lgcorzo/madmin-go`](https://github.com/lgcorzo/madmin-go) | MinIO Admin Go Library | Administrative APIs for server configuration, user management, healing, and decommissioning |
 | | [`lgcorzo/kms-go`](https://github.com/lgcorzo/kms-go) | Cryptographic KMS Client Library | Go client primitives for key creation, DEK derivation, and envelope encryption via KES |
 | | [`lgcorzo/pkg`](https://github.com/lgcorzo/pkg) | Common Go Utility Packages | Cryptographic certificates, hashing routines, and shared helper primitives |
-| | [`lgcorzo/mtls`](https://github.com/lgcorzo/mtls) | Mutual TLS Utilities | Zero-trust inter-node cryptographic identity verification and mTLS configuration |
+| | [`lgcorzo/mtls`](https://github.com/lgcorzo/mtls) | Mutual TLS Utilities | Inter-node certificate identity verification and mTLS configuration |
 | **Hardware & SIMD Acceleration** | [`lgcorzo/sha256-simd`](https://github.com/lgcorzo/sha256-simd) | SIMD-Accelerated SHA256 | AVX-512 and ARMv8 Crypto Extensions SHA256 acceleration (up to 100x speedup) |
 | | [`lgcorzo/md5-simd`](https://github.com/lgcorzo/md5-simd) | SIMD-Accelerated MD5 | Parallel AVX-512 and AVX2 MD5 calculation (up to 8x acceleration) |
 | | [`lgcorzo/blake2b-simd`](https://github.com/lgcorzo/blake2b-simd) | SIMD-Accelerated BLAKE2b | Pure Go cryptographic hashing leveraging AVX2/AVX512/SSSE3 vector instructions |
@@ -291,7 +306,7 @@ To guarantee long-term sovereign support, full supply-chain independence, and co
 
 ### 5. Sovereign Maintenance & Long-Term Support Plan in GitHub
 
-To preserve long-term operational resilience, supply-chain autonomy, and enterprise security compliance (EU AI Act, SOC 2 Type II, ISO 25059) without upstream commercial lock-in, all 38 repositories are managed under a structured maintenance protocol:
+To preserve long-term operational resilience, supply-chain autonomy, and audit/traceability readiness without upstream commercial lock-in, all 38 repositories are managed under a structured maintenance protocol:
 
 ```mermaid
 flowchart TD
@@ -367,6 +382,21 @@ replace (
 ```
 
 ---
+
+
+---
+
+### 6. What Changed vs. Upstream (`minio/kes`)
+
+See [`MAINTAINERS.md`](./MAINTAINERS.md) and [`CHANGELOG.md`](./CHANGELOG.md) for full details. Summary of fork changes:
+- **Upstream Migration & CI Renewal** (`#1`): Migrated module/release workflows after `minio/kes` was archived in 2025.
+- **Dependency Security Upgrades** (`#2`, `v0.24.0-lgcorzo.1`): Bumped vulnerable Go modules and fixed golangci-lint action verification.
+- **Vulnerability & Test Verification** (`#5`, `v0.24.0-lgcorzo.2`): Audited and verified cryptographic test suites and CVE posture.
+- **Least-Privilege Workflow Hardening** (`#7`, `v0.24.0-lgcorzo.3`): Scoped GitHub Actions `GITHUB_TOKEN` permissions to minimum required privileges.
+- **CodeQL SAST Remediation** (`#9`, `v0.24.0-lgcorzo.4`): Resolved 5 CodeQL security findings in workflow and server configurations.
+- **CI & Security Fixes** (`#11`, `#13`): Fixed workflow permissions and resolved remaining action check regressions.
+
+> **Transparency on Agent Contributions:** Automated commits and pull requests created by autonomous agents in the Dark Gravity pipeline are tagged with `[agent]` to clearly distinguish automated maintenance from manual engineering.
 
 ## Contribute to KES Project
 
